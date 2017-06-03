@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MessagesList from './MessagesList';
 import * as firebase from 'firebase';
 
 class Messenger extends Component {
@@ -38,6 +39,7 @@ class Messenger extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
+                <MessagesList />
                 <label>
                     <input type="text" value={this.state.value} onChange={this.handleChange} />
                 </label>

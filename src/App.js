@@ -45,7 +45,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="center">
+      <div>
         <div>
           <Login
             user={this.state.user}
@@ -60,7 +60,7 @@ class App extends Component {
 
   userOn() {
     return (
-      <div className="row">
+      <div>
         <h6>
           Chatting
           <Messenger user={this.state.user} />
