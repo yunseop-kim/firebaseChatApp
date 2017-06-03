@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import * as firebase from 'firebase';
 import Login from './Login';
+import Messenger from './Messenger';
 
 class App extends Component {
   constructor(props) {
@@ -62,6 +63,7 @@ class App extends Component {
       <div className="row">
         <h6>
           Chatting
+          <Messenger user={this.state.user} />
         </h6>
       </div>
     )

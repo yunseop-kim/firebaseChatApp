@@ -23,8 +23,7 @@ class Login extends Component {
   renderUserData() {
     return (
       <div>
-        <img width={30} height={30} src={this.props.user.photoURL}
-          alt="" />
+        <img width={30} height={30} src={this.props.user.photoURL} alt="" />
         <h4>{this.props.user.displayName}</h4>
         <h6>{this.props.user.email}</h6>
         <button onClick={this.props.handleLogout}>Logout</button>
