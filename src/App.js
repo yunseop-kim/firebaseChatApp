@@ -1,39 +1,78 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import * as firebase from 'firebase';
+import Login from './Login';
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.userOn = this.userOn.bind(this)
+    this.userOff = this.userOff.bind(this)
     this.state = {
-      speed: 10
-    };
+      user: null
+    }
+  }
+
+
+  handleAuth() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+      .then((result) => {
+        firebase.database().ref('User/' + result.user.displayName).update({
+          username: result.user.displayName,
+          email: result.user.email,
+          photo: result.user.photoURL
+        })
+
+      })
+      .catch(error => console.error(`Error : ${error.code}: ${error.message}`))
+  }
+
+  handleLogout() {
+    firebase.auth().signOut()
+      .then(() => {
+        console.log('You have dislocated')
+      })
+      .catch(error => console.error(`Error : ${error.code}: ${error.message}`))
   }
 
   componentDidMount() {
-    const rootRef = firebase.database().ref().child('react');
-    const speedRef = rootRef.child('speed');
-    speedRef.on('value', snap => {
-      this.setState({
-        speed: snap.val()
-      });
-    });
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ user })
+    })
   }
 
   render() {
     return (
-      <div className="App">
-        <h1>{this.state.speed}</h1>
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to Firebase-React Chatting App</h2>
+      <div className="center">
+        <div>
+          <Login
+            user={this.state.user}
+            handleLogout={this.handleLogout.bind(this)}
+            handleAuth={this.handleAuth.bind(this)}
+          />
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        {this.state.user ? this.userOn() : this.userOff()}
       </div>
-    );
+    )
+  }
+
+  userOn() {
+    return (
+      <div className="row">
+        <h6>
+          Chatting
+        </h6>
+      </div>
+    )
+  }
+
+  userOff() {
+    return (
+      <h5>
+        You need to login
+      </h5>
+    )
   }
 }
 
