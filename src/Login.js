@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class Login extends Component {
   render() {
@@ -12,22 +12,13 @@ class Login extends Component {
 
   renderLoginButton() {
     return (
-      <div>
-        <img width={80} height={80} src={logo} alt="" />
-        <h3>Chatting App</h3>
-        <button onClick={this.props.handleAuth}>Login</button>
-      </div>
+      <RaisedButton style={{marginTop:"5px"}} label="Login" primary={true} onClick={this.props.handleAuth} />
     )
   }
 
   renderUserData() {
     return (
-      <div>
-        <img width={30} height={30} src={this.props.user.photoURL} alt="" />
-        <h4>{this.props.user.displayName}</h4>
-        <h6>{this.props.user.email}</h6>
-        <button onClick={this.props.handleLogout}>Logout</button>
-      </div>
+      <RaisedButton style={{marginTop:"5px"}} label="Logout" secondary={true} onClick={this.props.handleLogout} />
     )
   }
 }

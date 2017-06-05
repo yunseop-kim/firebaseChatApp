@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import List from 'material-ui/List';
 import * as firebase from 'firebase';
 import MessageItem from './MessageItem';
 
-//Componente para crear la estructura de la lista
 class MessagesList extends Component {
     constructor(props) {
         super(props);
@@ -12,7 +12,7 @@ class MessagesList extends Component {
     }
 
     componentDidMount() {
-        let t = this
+        let t = this;
         var messagesRef = firebase.database().ref('Messages')
         messagesRef.on('value', function (snapshot) {
             let temp = []
@@ -25,15 +25,11 @@ class MessagesList extends Component {
 
     render() {
         return (
-            <div>
-                <ul>
-                    {
-                        this.state.Messages.map((message) => (
-                            <MessageItem message={message} />
-                        ))
-                    }
-                </ul>
-            </div>
+            <List>
+                {
+                    this.state.Messages.map(message => <MessageItem message={message} />)
+                }
+            </List>
         )
     }
 }

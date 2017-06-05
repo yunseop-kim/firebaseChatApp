@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import MessagesList from './MessagesList';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import Divider from 'material-ui/Divider';
+
 import * as firebase from 'firebase';
 
 class Messenger extends Component {
     constructor(props) {
         super(props);
         this.state = { value: '' };
-        this.count = 0;
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -29,7 +32,7 @@ class Messenger extends Component {
     handleSubmit(event) {
         event.preventDefault();
         firebase.database().ref('Messages').push({
-            username: this.props.user.displayName,
+            email: this.props.user.email,
             message: this.state.value,
             sendtime: this.formatDate(new Date())
         });
@@ -40,20 +43,14 @@ class Messenger extends Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <MessagesList />
-                <label>
-                    <input type="text" value={this.state.value} onChange={this.handleChange} />
-                </label>
-                <input type="submit" value="Submit" />
+                <br />
+                <br />
+                <div style={{position: "fixed", bottom:"0", textAlign:"center", width:"100%", zIndex:"100"}}>
+                    <TextField value={this.state.value} onChange={this.handleChange} style={{width:"70%"}} />
+                    <RaisedButton type="submit" label="Send" primary={true} />
+                </div>
             </form>
         );
-    }
-
-    sendMessage(userId, name, email, imageUrl) {
-        firebase.database().ref('Messages/' + userId).set({
-            username: name,
-            email: email,
-            profile_picture: imageUrl
-        });
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AppBar from 'material-ui/AppBar';
 import './App.css';
 import * as firebase from 'firebase';
 import Login from './Login';
@@ -14,17 +15,21 @@ class App extends Component {
     }
   }
 
+  // 임시
+  replaceSpecialChar(email) {
+    return email.replace('.', '_');
+  }
+
 
   handleAuth() {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
       .then((result) => {
-        firebase.database().ref('User/' + result.user.displayName).update({
+        firebase.database().ref('User/' + this.replaceSpecialChar(result.user.email)).update({
           username: result.user.displayName,
           email: result.user.email,
           photo: result.user.photoURL
         })
-
       })
       .catch(error => console.error(`Error : ${error.code}: ${error.message}`))
   }
@@ -46,14 +51,20 @@ class App extends Component {
   render() {
     return (
       <div>
+        <AppBar
+          title={this.state.user ? this.state.user.displayName + '님' : "Chatting App"}
+          iconElementRight={
+            <Login
+              user={this.state.user}
+              handleLogout={this.handleLogout.bind(this)}
+              handleAuth={this.handleAuth.bind(this)}
+            />
+          }
+          style={{ position: "fixed", top: "0", zIndex: "100" }}
+        />
         <div>
-          <Login
-            user={this.state.user}
-            handleLogout={this.handleLogout.bind(this)}
-            handleAuth={this.handleAuth.bind(this)}
-          />
+          {this.state.user ? this.userOn() : this.userOff()}
         </div>
-        {this.state.user ? this.userOn() : this.userOff()}
       </div>
     )
   }
@@ -61,10 +72,7 @@ class App extends Component {
   userOn() {
     return (
       <div>
-        <h6>
-          Chatting
-          <Messenger user={this.state.user} />
-        </h6>
+        <Messenger user={this.state.user} />
       </div>
     )
   }
