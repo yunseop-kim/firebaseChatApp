@@ -54,9 +54,9 @@ class App extends Component {
               handleAuth={this.handleAuth.bind(this)}
             />
           }
-          style={{ position: "fixed", top: "0", zIndex: "100" }}
+          style={{ position: "fixed", display: "flex", top: "0", zIndex: "100" }}
         />
-        <div>
+        <div style={{ paddingTop: "64px", minHeight: "400px" }}>
           {this.state.user ? this.userOn() : this.userOff()}
         </div>
       </div>
@@ -73,9 +73,9 @@ class App extends Component {
 
   userOff() {
     return (
-      <h5>
+      <div>
         You need to login
-      </h5>
+      </div>
     )
   }
 }
