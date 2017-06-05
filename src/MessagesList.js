@@ -27,7 +27,7 @@ class MessagesList extends Component {
         return (
             <List>
                 {
-                    this.state.Messages.map(message => <MessageItem message={message} />)
+                    this.state.Messages.map((message, index) => <MessageItem key={index} message={message} />)
                 }
             </List>
         )

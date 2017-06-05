@@ -12,7 +12,7 @@ class Login extends Component {
 
   renderLoginButton() {
     return (
-      <RaisedButton style={{marginTop:"5px"}} label="Login" primary={true} onClick={this.props.handleAuth} />
+      <RaisedButton style={{marginTop:"5px"}} label="Login" onClick={this.props.handleAuth} />
     )
   }
 

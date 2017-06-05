@@ -15,17 +15,11 @@ class App extends Component {
     }
   }
 
-  // 임시
-  replaceSpecialChar(email) {
-    return email.replace('.', '_');
-  }
-
-
   handleAuth() {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
       .then((result) => {
-        firebase.database().ref('User/' + this.replaceSpecialChar(result.user.email)).update({
+        firebase.database().ref('User/' + firebase.auth().currentUser.uid).update({
           username: result.user.displayName,
           email: result.user.email,
           photo: result.user.photoURL

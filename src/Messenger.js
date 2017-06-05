@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import MessagesList from './MessagesList';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import Divider from 'material-ui/Divider';
 
 import * as firebase from 'firebase';
 
@@ -32,7 +31,7 @@ class Messenger extends Component {
     handleSubmit(event) {
         event.preventDefault();
         firebase.database().ref('Messages').push({
-            email: this.props.user.email,
+            uid: firebase.auth().currentUser.uid,
             message: this.state.value,
             sendtime: this.formatDate(new Date())
         });
